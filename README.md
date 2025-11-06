@@ -1,0 +1,1 @@
+# faster-whisper-server-k8s-configs
