@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faster-whisper-cpu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faster-whisper-server-k8s
+      type: cpu
+  template:
+    metadata:
+      labels:
+        app: faster-whisper-server-k8s
+        type: cpu
+    spec:
+      dnsPolicy: Default
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+          - 1.1.1.1
+      containers:
+      - name: faster-whisper-cpu
+        image: fedirz/faster-whisper-server:latest-cpu
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: "34000m"
+            memory: "12Gi"
+          limits:
+            cpu: "36000m"
+            memory: "14Gi"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faster-whisper-gpu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: faster-whisper-server-k8s
+      type: gpu
+  template:
+    metadata:
+      labels:
+        app: faster-whisper-server-k8s
+        type: gpu
+    spec:
+      nodeSelector:
+        role: single-target
+      dnsPolicy: Default
+      dnsConfig:
+        nameservers:
+          - 8.8.8.8
+          - 1.1.1.1
+      containers:
+      - name: faster-whisper-gpu
+        image: fedirz/faster-whisper-server:latest-cuda
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+            cpu: "2000m"
+            memory: "8Gi"
