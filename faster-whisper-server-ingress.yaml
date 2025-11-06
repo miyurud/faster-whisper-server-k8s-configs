@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{"nginx.ingress.kubernetes.io/load-balance":"round_robin","nginx.ingress.kubernetes.io/rewrite-target":"/","nginx.ingress.kubernetes.io/service-upstream":"true"},"name":"faster-whisper-server-ingress","namespace":"default"},"spec":{"rules":[{"http":{"paths":[{"backend":{"service":{"name":"faster-whisper-server-service","port":{"number":8000}}},"path":"/","pathType":"Prefix"}]}}]}}
+    nginx.ingress.kubernetes.io/load-balance: round_robin
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/service-upstream: "true"
+  creationTimestamp: "2025-09-01T19:29:00Z"
+  generation: 1
+  name: faster-whisper-server-ingress
+  namespace: default
+  resourceVersion: "20329390"
+  uid: 527ddcea-4bb4-4779-adc3-fb1624f8a4fa
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: faster-whisper-server-service
+            port:
+              number: 8000
+        path: /
+        pathType: Prefix
+status:
+  loadBalancer: {}
